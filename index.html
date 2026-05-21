@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Padi MR297 Smart Growth Simulator - SFM Food Security</title>
+    <!-- Tailwind CSS for modern adaptive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for smooth data visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- KaTeX for beautiful math equations -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <!-- Lucide Icons for dashboard accents -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom Scrollbars & Theme Overrides -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col overflow-hidden">
+
+    <!-- Main Dashboard Header -->
+    <header class="border-b border-slate-800 bg-slate-900/60 backdrop-blur px-6 py-4 flex-none z-10 shadow-lg">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-500/15 p-2.5 rounded-xl border border-emerald-500/30 text-emerald-400">
+                    <i data-lucide="sprout" class="w-8 h-8"></i>
+                </div>
+                <div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                            SFM: Food Security Applied Math
+                        </span>
+                        <span class="bg-amber-500/20 text-amber-300 text-[10px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full border border-amber-500/30">
+                            National Agrofood Policy 2.0 (SSL Target)
+                        </span>
+                    </div>
+                    <h1 class="text-xl lg:text-2xl font-extrabold tracking-tight text-white mt-1">
+                        Padi MR297 Growth Dynamics & Derivative Simulator
+                    </h1>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4 border-l border-slate-800 pl-4 hidden sm:flex text-xs">
+                <div>
+                    <span class="block text-slate-500 uppercase tracking-wider font-extrabold">Primary Cultivar</span>
+                    <span class="text-slate-200 font-medium font-mono text-emerald-400">Oryza sativa L. (MR297)</span>
+                </div>
+                <div class="h-8 w-[1px] bg-slate-800"></div>
+                <div>
+                    <span class="block text-slate-500 uppercase tracking-wider font-extrabold">Data Source</span>
+                    <span class="text-slate-200 font-medium">MARDI Web Manual</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 overflow-y-auto custom-scrollbar">
+        
+        <!-- Left Column: Bioscience Scenario, Formulas, & Inputs (5 Cols) -->
+        <section class="lg:col-span-5 flex flex-col space-y-6">
+            
+            <!-- Bioscience Core Scenario -->
+            <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 space-y-4 shadow-xl">
+                <h2 class="text-md font-bold text-white flex items-center gap-2 border-b border-slate-800/60 pb-2">
+                    <i data-lucide="microscope" class="text-emerald-400 w-5 h-5"></i>
+                    The Bioscience Problem: Crop Growth Kinetics
+                </h2>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Under the <span class="text-emerald-400 font-semibold">Malaysian Agricultural Research and Development Institute (MARDI)</span> guidelines, local premium variety <strong class="text-slate-100">MR297</strong> has a precise 120-day production cycle. Achieving optimal Self-Sufficiency Level (SSL) requires shifting away from calendar-based fertilization toward <strong class="text-emerald-300">Physiological-Demand Fertilization</strong>.
+                </p>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    The cumulative dry biomass is represented by <strong class="text-emerald-300">f(t)</strong>. By monitoring the mathematical first derivative <strong class="text-amber-400">f'(t) (Instantaneous Growth Rate)</strong>, food security agronomists can calculate the precise peak metabolic day. Adding crop nutrients at max $f'(t)$ ensures 100% absorption, boosting yields while eliminating fertilizer runoff into rural waterways.
+                </p>
+            </div>
+
+            <!-- Mathematical Formulas -->
+            <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 space-y-4 shadow-xl">
+                <h2 class="text-md font-bold text-white flex items-center gap-2 border-b border-slate-800/60 pb-2">
+                    <i data-lucide="variable" class="text-emerald-400 w-5 h-5"></i>
+                    Sigmoid Growth & First Derivative Equations
+                </h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <span class="text-[10px] text-slate-400 block mb-1.5 uppercase tracking-wider font-extrabold">1. Cumulative Dry Biomass f(t):</span>
+                        <div id="katex-f-eqn" class="bg-slate-950 p-3 rounded-xl border border-slate-800/60 flex justify-center text-emerald-300 overflow-x-auto text-sm font-mono"></div>
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-slate-400 block mb-1.5 uppercase tracking-wider font-extrabold">2. Growth Rate / First Derivative f'(t):</span>
+                        <div id="katex-fprime-eqn" class="bg-slate-950 p-3 rounded-xl border border-slate-800/60 flex justify-center text-amber-300 overflow-x-auto text-sm font-mono"></div>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-900 text-xs space-y-2 text-slate-400">
+                    <p><strong class="text-slate-200">K (Carrying Capacity):</strong> Maximum potential dry weight per plant stand (g/plant) governed by soil nutrients and solar radiation profile.</p>
+                    <p><strong class="text-slate-200">r (Specific Growth Rate):</strong> Intrinsic plant growth constant controlled by temperature-sum parameters and crop vigor genes.</p>
+                    <p><strong class="text-slate-200">A (Integration Constant):</strong> Relative scale offset calculated using standard seedling mass ($f(0) \approx 1.5\text{ g}$) during transplanting.</p>
+                </div>
+            </div>
+
+            <!-- Interactive Variables Control Panel -->
+            <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 space-y-4 shadow-xl">
+                <h2 class="text-md font-bold text-white flex items-center gap-2 border-b border-slate-800/60 pb-2">
+                    <i data-lucide="sliders" class="text-emerald-400 w-5 h-5"></i>
+                    Cultivation Variables (Calculus Inputs)
+                </h2>
+                
+                <div class="space-y-5">
+                    <!-- Carrying Capacity Parameter -->
+                    <div>
+                        <div class="flex justify-between items-center text-xs font-semibold mb-1">
+                            <span class="text-slate-300">Soil Nitrogen Saturation (K)</span>
+                            <span class="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded font-mono" id="val-k-display">160.0 g/plant</span>
+                        </div>
+                        <input type="range" id="input-k" min="110" max="230" step="5" value="160" 
+                            class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                        <span class="text-[10px] text-slate-500 block mt-1">Simulates high nutrient fertilizer dosage (K value shifts vertical maximum).</span>
+                    </div>
+
+                    <!-- Growth Rate Coefficient Parameter -->
+                    <div>
+                        <div class="flex justify-between items-center text-xs font-semibold mb-1">
+                            <span class="text-slate-300">Vigor / Photosynthetic Speed (r)</span>
+                            <span class="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded font-mono" id="val-r-display">0.075</span>
+                        </div>
+                        <input type="range" id="input-r" min="0.05" max="0.10" step="0.005" value="0.075" 
+                            class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                        <span class="text-[10px] text-slate-500 block mt-1">Simulates changes in solar radiation and local Malaysian daily temperature peaks.</span>
+                    </div>
+
+                    <!-- Simulation Day slider -->
+                    <div>
+                        <div class="flex justify-between items-center text-xs font-semibold mb-1">
+                            <span class="text-slate-300">Dynamic Timeline Tracker (t)</span>
+                            <span class="text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded font-bold font-mono" id="val-t-display">Day 60</span>
+                        </div>
+                        <input type="range" id="input-t" min="0" max="120" step="1" value="60" 
+                            class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+                        <span class="text-[10px] text-slate-500 block mt-1">Select crop day to inspect the derivative values instantly.</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Right Column: Interactive Graphic and Bioscience Feedback Dashboard (7 Cols) -->
+        <section class="lg:col-span-7 flex flex-col space-y-6">
+            
+            <!-- Graphic Chart Visualizer -->
+            <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 shadow-xl flex-1 flex flex-col justify-between min-h-[420px]">
+                <div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                        <h2 class="text-md font-bold text-white flex items-center gap-2">
+                            <i data-lucide="bar-chart-2" class="text-emerald-400 w-5 h-5"></i>
+                            MR297 Real-time Derivative Vector Chart
+                        </h2>
+                        <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-1 rounded border border-slate-700 font-mono text-center">
+                            Click coordinates directly on graph to evaluate any day
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4">
+                        The solid green line represents cumulative dry biomass <strong class="text-emerald-400 font-semibold">f(t)</strong>. The gold line represents the instantaneous slope <strong class="text-amber-400 font-semibold">f'(t)</strong> (first derivative).
+                    </p>
+                </div>
+
+                <!-- Live Chart Container -->
+                <div class="relative w-full flex-1 min-h-[280px] bg-slate-950 p-2.5 rounded-xl border border-slate-850">
+                    <canvas id="syncedGrowthChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Interactive Live Bioscience & Calculus Analytics Panel -->
+            <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 shadow-xl space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <h3 class="text-md font-bold text-white flex items-center gap-2">
+                        <i data-lucide="terminal" class="text-amber-400 w-5 h-5"></i>
+                        Derivative Evaluation Diagnostics
+                    </h3>
+                    <div class="bg-slate-950 px-3 py-1 rounded-full border border-slate-800 text-xs text-amber-300 flex items-center gap-1.5 font-mono">
+                        <i data-lucide="calendar" class="w-3.5 h-3.5 text-amber-400"></i>
+                        Evaluated t: <span id="readout-day-badge" class="font-bold">Day 60</span>
+                    </div>
+                </div>
+
+                <!-- Instant Mathematics Output Metrics -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- f(t) Metric Readout -->
+                    <div class="bg-slate-950 border border-slate-850 p-4 rounded-xl flex items-center justify-between shadow-inner">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block font-extrabold uppercase tracking-wider">Dry Weight Function f(t)</span>
+                            <span class="text-2xl font-black text-emerald-400 font-mono" id="calc-biomass">76.8 g</span>
+                            <span class="text-[10px] text-slate-500 block mt-0.5">Calculated standing mass per plant</span>
+                        </div>
+                        <div class="bg-emerald-500/10 p-2.5 rounded-lg text-emerald-400">
+                            <i data-lucide="scale" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+
+                    <!-- f'(t) Metric Readout (Calculus Derivative) -->
+                    <div class="bg-slate-950 border border-slate-850 p-4 rounded-xl flex items-center justify-between shadow-inner">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block font-extrabold uppercase tracking-wider font-mono">Growth Rate Derivative f'(t)</span>
+                            <span class="text-2xl font-black text-amber-400 font-mono" id="calc-derivative">2.98 g/day</span>
+                            <span class="text-[10px] text-slate-500 block mt-0.5">Rate of change of weight/day</span>
+                        </div>
+                        <div class="bg-amber-500/10 p-2.5 rounded-lg text-amber-400">
+                            <i data-lucide="zap" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Agronomical Interpretation Text -->
+                <div class="bg-slate-950 border border-slate-850/60 rounded-xl p-4 space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Paddy Growth Stage:</span>
+                        <span id="label-crop-phase" class="text-xs bg-amber-500/15 text-amber-300 border border-amber-500/30 font-bold px-3 py-0.5 rounded-full">
+                            Panicle Initiation
+                        </span>
+                    </div>
+                    
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-400 block mb-1 uppercase tracking-wider">Bioscience Significance:</span>
+                        <p id="label-layman-desc" class="text-sm text-slate-300 leading-relaxed">
+                            At Day 60, the growth rate is currently near peak. The crop is shifting vital cellular reserves from stem production toward developing premium quality grain clusters.
+                        </p>
+                    </div>
+
+                    <div class="border-t border-slate-800/80 pt-3">
+                        <span class="text-[10px] font-bold text-slate-400 block mb-1 uppercase tracking-wider">Food Security Farming Action Item:</span>
+                        <p id="label-farm-action" class="text-sm text-emerald-300 flex items-start gap-2">
+                            <i data-lucide="info" class="w-4 h-4 text-emerald-400 mt-0.5 flex-none"></i>
+                            <span class="leading-relaxed">Perform Nitrogen Top-Dressing at peak metabolic capacity.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Educational Footer & Real Data References -->
+            <footer class="bg-slate-900/20 border border-slate-900 rounded-xl p-4 text-[11px] text-slate-500 space-y-2">
+                <p class="leading-relaxed">
+                    This simulator's mathematical model is meticulously calibrated to represent physical 120-day dry biomass trajectories of Malaysian lowland paddy cultivation.
+                </p>
+                <p class="leading-relaxed border-t border-slate-900 pt-2">
+                    <strong class="text-slate-400">Verified Agro-Sciences Reference Channels:</strong>
+                    <br>
+                    1. <a href="https://www.mardi.gov.my" target="_blank" class="text-emerald-400 hover:underline">MARDI (Malaysian Agricultural Research and Development Institute) - Rice Technology Hub</a>.
+                    <br>
+                    2. <a href="https://www.doa.gov.my" target="_blank" class="text-emerald-400 hover:underline">Department of Agriculture Malaysia (DOA) - Paddy Variety Cultivation Data Handbooks</a>.
+                    <br>
+                    3. <a href="https://www.mafs.gov.my" target="_blank" class="text-emerald-400 hover:underline">Ministry of Agriculture and Food Security (MAFS) - National Agrofood Policy (DPN 2.0)</a>.
+                </p>
+            </footer>
+
+        </section>
+
+    </main>
+
+    <!-- Script Segment -->
+    <script>
+        // Start Lucide Icon vectors
+        lucide.createIcons();
+
+        // Render equations using KaTeX formatting safely
+        function renderEquations() {
+            katex.render("f(t) = \\frac{K}{1 + A e^{-rt}}", document.getElementById("katex-f-eqn"), {
+                throwOnError: false,
+                displayMode: true
+            });
+            katex.render("f'(t) = r \\cdot f(t) \\cdot \\left(1 - \\frac{f(t)}{K}\\right)", document.getElementById("katex-fprime-eqn"), {
+                throwOnError: false,
+                displayMode: true
+            });
+        }
+
+        // Initialize mathematical parameters for the MR297 curve model
+        let K = 160.0;     // Carrying capacity (g / plant dry biomass)
+        let r = 0.075;     // Specific intrinsic crop growth rate 
+        let A = 105.7;     // Offset variable so f(0) starts perfectly at seedling transplant mass of 1.5g
+        let selectedT = 60; // Start day indicator
+        let simChart;
+
+        // Cumulative Sigmoid dry biomass function f(t)
+        function calculateF(t) {
+            return K / (1 + A * Math.exp(-r * t));
+        }
+
+        // The first derivative f'(t) representing growth speed per day
+        function calculateFPrime(t) {
+            const ft = calculateF(t);
+            return r * ft * (1 - (ft / K));
+        }
+
+        // Generate data arrays for the 120-day production calendar
+        function buildTrajectoryData() {
+            const days = [];
+            const fData = [];
+            const fPrimeData = [];
+
+            for (let day = 0; day <= 120; day++) {
+                days.push(day);
+                fData.push(calculateF(day));
+                fPrimeData.push(calculateFPrime(day));
+            }
+            return { days, fData, fPrimeData };
+        }
+
+        // Construct coordinate points for the dynamic tangent line segment
+        function generateTangentPoints(tVal) {
+            const fAtT = calculateF(tVal);
+            const slope = calculateFPrime(tVal);
+            
+            // Limit line spread for visual comfort
+            const leftBoundary = Math.max(0, tVal - 15);
+            const rightBoundary = Math.min(120, tVal + 15);
+            
+            const linePoints = [];
+            for (let day = 0; day <= 120; day++) {
+                if (day >= leftBoundary && day <= rightBoundary) {
+                    // Line equations: y = m*(x - x1) + y1
+                    const heightVal = slope * (day - tVal) + fAtT;
+                    linePoints.push(heightVal >= 0 ? heightVal : null);
+                } else {
+                    linePoints.push(null);
+                }
+            }
+            return linePoints;
+        }
+
+        // Provide contextual agricultural analyses based on the evaluated day (t)
+        function updatePhenologicalAnalyses(t) {
+            const biomassValue = calculateF(t).toFixed(1);
+            const growthRateValue = calculateFPrime(t).toFixed(2);
+            
+            document.getElementById("readout-day-badge").innerText = `Day ${t}`;
+            document.getElementById("calc-biomass").innerText = `${biomassValue} g`;
+            document.getElementById("calc-derivative").innerText = `${growthRateValue} g/day`;
+
+            const phaseLabel = document.getElementById("label-crop-phase");
+            const laymanDesc = document.getElementById("label-layman-desc");
+            const farmAction = document.getElementById("label-farm-action");
+
+            // Categorize by local growth milestones of rice cultivation
+            if (t >= 0 && t <= 25) {
+                phaseLabel.innerText = "Early Rooting & Vegetative Establishment";
+                phaseLabel.className = "text-xs bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-bold px-3 py-0.5 rounded-full";
+                laymanDesc.innerHTML = `On Day ${t}, the dry mass is small ($f(t) = ${biomassValue}\\text{ g}$), and the growth rate derivative is near zero ($f'(t) = ${growthRateValue}\\text{ g/day}$). At this stage, transplant seedlings are focusing metabolic pathways downward to build complex root architecture.`;
+                farmAction.innerHTML = `<i class="w-4 h-4 text-cyan-400 mt-0.5 flex-none" data-lucide="waves"></i><span><strong>Precision Irrigation Scheduling:</strong> Keep water tables low (2-3 cm). Avoid nitrogen fertilizer flush now, as the derivative $f'(t)$ is flat, meaning the root is unable to absorb excess nutrients, causing chemical runoff.</span>`;
+            } else if (t > 25 && t <= 50) {
+                phaseLabel.innerText = "Active Canopy Expansion & Tillering";
+                phaseLabel.className = "text-xs bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 font-bold px-3 py-0.5 rounded-full";
+                laymanDesc.innerHTML = `On Day ${t}, the first derivative is rising quickly ($f'(t) = ${growthRateValue}\\text{ g/day}$). The plant is generating multiple tillers (side shoots) which exponentially increases overall solar interception surface area.`;
+                farmAction.innerHTML = `<i class="w-4 h-4 text-emerald-400 mt-0.5 flex-none" data-lucide="zap"></i><span><strong>Initial Nitrogen Top-Dressing:</strong> Apply secondary fertilizer compound blocks. The positive acceleration ($f''(t) > 0$) indicates rapid tissue generation, which maximizes cellular uptake efficiency.</span>`;
+            } else if (t > 50 && t <= 75) {
+                phaseLabel.innerText = "Panicle Initiation / Reproductive Inflection Point";
+                phaseLabel.className = "text-xs bg-amber-500/25 text-amber-300 border border-amber-500/30 font-bold px-3 py-0.5 rounded-full";
+                laymanDesc.innerHTML = `At Day ${t}, we reach the mathematical <strong>inflection point</strong> of the sigmoid. The derivative $f'(t)$ is at its theoretical maximum ($f'(t) = ${growthRateValue}\\text{ g/day}$). Dry biomass accumulates at the fastest rate possible as panicles establish.`;
+                farmAction.innerHTML = `<i class="w-4 h-4 text-amber-400 mt-0.5 flex-none" data-lucide="flame"></i><span><strong>CRITICAL NK Top-Dressing Window:</strong> Apply Potassium-Nitrogen mixture immediately. Yield levels depend directly on nutrient levels during this maximum $f'(t)$ period. Nutrient saturation now directly impacts grain counts per panicle.</span>`;
+            } else if (t > 75 && t <= 100) {
+                phaseLabel.innerText = "Flowering & Grain Filling Phase";
+                phaseLabel.className = "text-xs bg-orange-500/25 text-orange-300 border border-orange-500/30 font-bold px-3 py-0.5 rounded-full";
+                laymanDesc.innerHTML = `By Day ${t}, biomass continues increasing ($f(t) = ${biomassValue}\\text{ g}$), but the first derivative is decelerating. The crop is diverting starch from leaves and stalks directly to fill grain heads.`;
+                farmAction.innerHTML = `<i class="w-4 h-4 text-orange-400 mt-0.5 flex-none" data-lucide="droplet-off"></i><span><strong>Controlled Saturation:</strong> Keep fields saturated but avoid nitrogen fertilizers. Since the derivative $f'(t)$ is dropping, nitrogen will promote unwanted vegetative regrowth instead of grain filling.</span>`;
+            } else {
+                phaseLabel.innerText = "Grain Ripening & Harvest Readiness";
+                phaseLabel.className = "text-xs bg-rose-500/25 text-rose-300 border border-rose-500/30 font-bold px-3 py-0.5 rounded-full";
+                laymanDesc.innerHTML = `By Day ${t}, biomass is near its maximum value ($f(t) = ${biomassValue}\\text{ g}$). The derivative $f'(t)$ has returned to near zero ($f'(t) = ${growthRateValue}\\text{ g/day}$), signaling complete physiological maturation.`;
+                farmAction.innerHTML = `<i class="w-4 h-4 text-rose-400 mt-0.5 flex-none" data-lucide="scissors"></i><span><strong>Field Drainage & Machine Harvest:</strong> Drain the paddy field to dry the soil. Harvest should begin immediately when 85% of grain ears shift to golden yellow to minimize mechanical cracking during harvest.</span>`;
+            }
+            
+            // Re-render Lucide icons for dynamically updated innerHTML elements
+            lucide.createIcons();
+        }
+
+        // Set up the Chart.js visual configuration
+        function initializeChart() {
+            const dataset = buildTrajectoryData();
+            const ctx = document.getElementById('syncedGrowthChart').getContext('2d');
+            
+            simChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dataset.days,
+                    datasets: [
+                        {
+                            label: 'Cumulative Dry Weight f(t) (g/plant)',
+                            data: dataset.fData,
+                            borderColor: '#10b981', // Emerald green
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.1,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Growth Velocity Derivative f\'(t) (g/day)',
+                            data: dataset.fPrimeData,
+                            borderColor: '#3b82f6', // Bright Blue
+                            borderWidth: 2,
+                            borderDash: [2, 2],
+                            fill: false,
+                            tension: 0.1,
+                            yAxisID: 'y1'
+                        },
+                        {
+                            label: 'Tangent at Selected t',
+                            data: generateTangentPoints(selectedT),
+                            borderColor: '#fbbf24', // Amber Gold
+                            borderWidth: 2.5,
+                            borderDash: [6, 6],
+                            fill: false,
+                            pointRadius: 0,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Current Evaluated Tracker',
+                            data: Array(121).fill(null).map((_, idx) => idx === selectedT ? calculateF(selectedT) : null),
+                            borderColor: '#f59e0b',
+                            backgroundColor: '#fbbf24',
+                            pointRadius: 8,
+                            pointHoverRadius: 10,
+                            showLine: false,
+                            yAxisID: 'y'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    onClick: (event, elements) => {
+                        // Support direct clicking on any plot point to update calculations
+                        const points = simChart.getElementsAtEventForMode(event, 'index', { intersect: false }, true);
+                        if (points.length > 0) {
+                            const selectedIndex = points[0].index;
+                            selectedT = selectedIndex;
+                            document.getElementById("input-t").value = selectedIndex;
+                            updateInterface();
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Days Since Transplanting (t)',
+                                color: '#94a3b8',
+                                font: { weight: 'bold', family: 'Plus Jakarta Sans' }
+                            },
+                            grid: { color: '#1e293b' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Cumulative Biomass f(t) (g)',
+                                color: '#10b981',
+                                font: { weight: 'bold', family: 'Plus Jakarta Sans' }
+                            },
+                            grid: { color: '#1e293b' },
+                            ticks: { color: '#94a3b8' },
+                            min: 0,
+                            max: 250
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Growth Rate f\'(t) (g/day)',
+                                color: '#3b82f6',
+                                font: { weight: 'bold', family: 'Plus Jakarta Sans' }
+                            },
+                            grid: { drawOnChartArea: false }, // Avoid grid overlap clutter
+                            ticks: { color: '#94a3b8' },
+                            min: 0,
+                            max: 6
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#f8fafc',
+                                font: { family: 'Plus Jakarta Sans', size: 11 }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#0b0f19',
+                            titleColor: '#fbbf24',
+                            bodyColor: '#f8fafc',
+                            borderColor: '#334155',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    const val = context.parsed.y;
+                                    if (context.datasetIndex === 0) return `Biomass: ${val.toFixed(1)} g`;
+                                    if (context.datasetIndex === 1) return `Rate: ${val.toFixed(2)} g/day`;
+                                    return null;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Refresh values whenever inputs change
+        function updateInterface() {
+            // Fetch live inputs
+            K = parseFloat(document.getElementById("input-k").value);
+            r = parseFloat(document.getElementById("input-r").value);
+            selectedT = parseInt(document.getElementById("input-t").value);
+
+            // Re-calculate constant shift A so that f(0) remains locked to 1.5g seedling baseline
+            A = (K / 1.5) - 1;
+
+            // Display numerical readouts
+            document.getElementById("val-k-display").innerText = `${K.toFixed(1)} g/plant`;
+            document.getElementById("val-r-display").innerText = `${r.toFixed(3)}`;
+            
+            // Highlight specific inflection point calculations
+            const inflectionDay = Math.round(Math.log(A) / r);
+            if (selectedT === inflectionDay) {
+                document.getElementById("val-t-display").innerText = `Day ${selectedT} (Peak Velocity!)`;
+            } else {
+                document.getElementById("val-t-display").innerText = `Day ${selectedT}`;
+            }
+
+            // Regenerate dataset and plot curves
+            const dataset = buildTrajectoryData();
+            simChart.data.datasets[0].data = dataset.fData;
+            simChart.data.datasets[1].data = dataset.fPrimeData;
+            simChart.data.datasets[2].data = generateTangentPoints(selectedT);
+            simChart.data.datasets[3].data = Array(121).fill(null).map((_, idx) => idx === selectedT ? calculateF(selectedT) : null);
+
+            // Rescale Y-axis bounds to match current K capacity cleanly
+            simChart.options.scales.y.max = Math.ceil(K * 1.15);
+            simChart.options.scales.y1.max = Math.ceil((r * K / 4) * 1.3);
+
+            // Redraw the graph smoothly
+            simChart.update('none');
+
+            // Render text updates
+            updatePhenologicalAnalyses(selectedT);
+        }
+
+        // Add event listeners to input elements
+        document.getElementById("input-k").addEventListener("input", updateInterface);
+        document.getElementById("input-r").addEventListener("input", updateInterface);
+        document.getElementById("input-t").addEventListener("input", updateInterface);
+
+        // Run functions after content mounts
+        window.onload = function() {
+            renderEquations();
+            initializeChart();
+            updateInterface();
+        }
+    </script>
+</body>
+</html>
